@@ -1,0 +1,4 @@
+interface:
+  display_name: "Djay OnePath"
+  short_description: "KISS-first bounded query and command architecture guard"
+  default_prompt: "Use $djay-onepath to design or review this query, command, cross-source read, UI, or API change."
