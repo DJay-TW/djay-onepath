@@ -30,6 +30,8 @@ Proof: How will the result, source freshness, and side effect be verified?
 
 The objective is not to minimize file count. The objective is to eliminate unowned, untraceable, or unverifiable second paths.
 
+OnePath also treats invalid states as a structural problem: prefer explicit lifecycle identities, constraints, schemas, and authoritative transitions over self-checks or repair processes that try to make an ambiguous model safe afterward.
+
 ## Read and write boundaries
 
 OnePath can use one consistent request envelope, but it separates reads from state changes.
@@ -99,7 +101,7 @@ LICENSE                 MIT license
 
 ## Version
 
-Current skill version: **v0.4**.
+Current skill version: **v0.5**.
 
 ## License
 

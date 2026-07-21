@@ -1,11 +1,13 @@
 ---
 name: djay-onepath
-description: Apply Djay OnePath, a KISS-first, intent-driven architecture guard for non-trivial UI, API, state-flow, integration, or service-boundary work. Use when choosing a frontend pattern or framework, adding or changing an API/request, composing dashboard data, introducing a worker/service, or reviewing a design for needless layers, endpoints, or duplicated sources of truth.
+description: Apply Djay OnePath, a KISS-first, invariant-first architecture guard for non-trivial UI, API, state-flow, integration, or service-boundary work. Use when choosing a frontend pattern or framework, adding or changing an API/request, composing dashboard data, introducing a worker/service, or reviewing a design for needless layers, endpoints, duplicated sources of truth, or invalid lifecycle states.
 ---
 
-# Djay OnePath v0.4
+# Djay OnePath v0.5
 
 Apply this rule: **one user or operator intent should have one short, clear, verifiable responsibility path.**
+
+Make invalid states unrepresentable: prefer a structure that prevents an invalid state over a self-check, watchdog, repair job, wrapper, or cleanup process that detects it later.
 
 Use it to reduce accidental complexity, not to force every system into one file, one process, or one HTTP endpoint.
 
@@ -54,11 +56,14 @@ For live state, deployments, or host diagnostics, follow the host-verification p
 ### Command boundaries
 
 - Make an explicit command the only path for a business state change. Require authorization, validation, preconditions, idempotency, concurrency/version rules, audit, and clear retry semantics.
+- Encode lifecycle invariants in the owning structure: distinct identities, storage constraints, schemas, types, or explicit state transitions. Do not leave completed, cancelled, archived, or failed data in an active identity that every consumer must remember to ignore.
+- Centralize each lifecycle transition behind one command, handler, API, transaction, or state machine. Reject illegal transitions at that boundary; use self-checks for verification and alerting, never as the normal mechanism that makes an ambiguous model safe.
 - For durable or asynchronous work, report accepted versus completed truthfully. Give the background path one persistent owner, timeout, retry policy, observable status, and a recovery path; do not fake synchronous completion.
 
 ### KISS boundaries
 
 - Do not add a framework, service, worker, cache, registry, factory, adapter layer, compatibility shim, or dependency unless it removes more real complexity than it creates now.
+- Prefer hard guardrails—database constraints, unique or foreign keys, schema validation, narrowed types, and explicit ownership boundaries—over scattered status checks or repair logic. If a legacy shim is unavoidable, label its owner and removal condition.
 - Prefer one explicit domain handler over a general-purpose abstraction that has only one caller.
 - Keep each truth owner and side effect identifiable. Do not let the frontend become a second integration or reconciliation layer.
 - Preserve necessary security, validation, idempotency, accessibility, error handling, and rollback behavior; KISS never means removing a real safety boundary.
