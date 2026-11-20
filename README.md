@@ -101,7 +101,7 @@ LICENSE                 MIT license
 
 ## Version
 
-Current skill version: **v0.5**.
+Current skill version: **v0.6**.
 
 ## License
 
